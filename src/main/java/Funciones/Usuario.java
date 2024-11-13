@@ -1,35 +1,14 @@
 package Funciones;
 
-public class Usuario {
+public class Usuario extends Persona {
     
-    public int IdUsuario;
-    public String Email;
-    public String contraseña;
     public int saldo;
     public int tickets;
 
-    public int getIdUsuario() {
-        return IdUsuario;
-    }
-
-    public void setIdUsuario(int IdUsuario) {
-        this.IdUsuario = IdUsuario;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String Email) {
-        this.Email = Email;
-    }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public Usuario(int saldo, int tickets, int id, String nombre, String email, String contraseña) {
+        super(id, nombre, email, contraseña);
+        this.saldo = saldo;
+        this.tickets = tickets;
     }
 
     public int getSaldo() {
@@ -48,13 +27,48 @@ public class Usuario {
         this.tickets = tickets;
     }
 
-    public Usuario(int IdUsuario, String Email, String contraseña, int saldo, int tickets) {
-        this.IdUsuario = IdUsuario;
-        this.Email = Email;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
-        this.saldo = saldo;
-        this.tickets = tickets;
     }
     
     
+    
+    public void agregarSaldo(int monto) {
+        
+    
+    }
+
+    public void comprarTicket(Peliculas pelicula) {
+        
+   
+    }
+
 }

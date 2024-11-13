@@ -1,15 +1,19 @@
 package Funciones;
 
+import java.util.Date;
+
 public class Tickets {
     
     public int IdTicket;
-    public String usuario;
-    public int fechaConpra;
+    public Usuario usuario;
+    public Peliculas pelicula;
+    public Date fechaCompra;
 
-    public Tickets(int IdTicket, String usuario, int fechaConpra) {
+    public Tickets(int IdTicket, Usuario usuario, Peliculas pelicula, Date fechaCompra) {
         this.IdTicket = IdTicket;
         this.usuario = usuario;
-        this.fechaConpra = fechaConpra;
+        this.pelicula = pelicula;
+        this.fechaCompra = new Date();
     }
 
     public int getIdTicket() {
@@ -20,20 +24,32 @@ public class Tickets {
         this.IdTicket = IdTicket;
     }
 
-    public String getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
-    public int getFechaConpra() {
-        return fechaConpra;
+    public Peliculas getPelicula() {
+        return pelicula;
     }
 
-    public void setFechaConpra(int fechaConpra) {
-        this.fechaConpra = fechaConpra;
+    public void setPelicula(Peliculas pelicula) {
+        this.pelicula = pelicula;
+    }
+
+    public Date getFechaCompra() {
+        return fechaCompra;
+    }
+
+    public void setFechaCompra(Date fechaCompra) {
+        this.fechaCompra = fechaCompra;
+    }
+    
+    public void generarTicket(Usuario usuario, Peliculas pelicula) {
+        
     }
     
     

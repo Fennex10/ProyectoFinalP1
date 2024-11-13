@@ -47,4 +47,13 @@ public class Peliculas {
     }
     
     
+    public void ObtenerCosto(){
+    
+    }
+    
+    public void actualizarCategoria() {
+       
+    }
+    
+    
 }

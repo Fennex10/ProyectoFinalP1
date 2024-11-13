@@ -1,43 +1,12 @@
 package Funciones;
 
-public class Administrador {
+public class Administrador extends Persona {
   
-    public int IdAdministrador;
-    public String nombre;
-    public String apellido;
-    public String contraseña;
     public String rol;
 
-    public int getIdAdministrador() {
-        return IdAdministrador;
-    }
-
-    public void setIdAdministrador(int IdAdministrador) {
-        this.IdAdministrador = IdAdministrador;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public Administrador(String rol, int id, String nombre, String email, String contraseña) {
+        super(id, nombre, email, contraseña);
+        this.rol = rol;
     }
 
     public String getRol() {
@@ -48,13 +17,44 @@ public class Administrador {
         this.rol = rol;
     }
 
-    public Administrador(int IdAdministrador, String nombre, String apellido, String contraseña, String rol) {
-        this.IdAdministrador = IdAdministrador;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
         this.nombre = nombre;
-        this.apellido = apellido;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
-        this.rol = rol;
     }
     
-    
+    public void gestionarUsuarios() {
+        
+    }
+
+    public void gestionarPeliculas() {
+        
+    }
+      
 }
