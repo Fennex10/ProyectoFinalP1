@@ -1,6 +1,6 @@
 package Funciones;
 
-public class Administrador extends Persona {
+public class Administrador extends Persona implements FAdministrador {
   
     public String rol;
 
@@ -49,12 +49,15 @@ public class Administrador extends Persona {
         this.contraseña = contraseña;
     }
     
+    @Override
     public void gestionarUsuarios() {
-        
     }
 
-    public void gestionarPeliculas() {
+    @Override
+    public void gestinoarPeliculas() {
         
     }
+        
+    
       
 }

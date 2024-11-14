@@ -1,6 +1,6 @@
 package Funciones;
 
-public class Usuario extends Persona {
+public class Usuario extends Persona implements FUsuario {
     
     public int saldo;
     public int tickets;
@@ -58,17 +58,15 @@ public class Usuario extends Persona {
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
-    
-    
-    
-    public void agregarSaldo(int monto) {
-        
-    
+
+    @Override
+    public void comprarTicket() {
+
     }
 
-    public void comprarTicket(Peliculas pelicula) {
-        
-   
+    @Override
+    public void agregarSaldo() {
+
     }
 
 }

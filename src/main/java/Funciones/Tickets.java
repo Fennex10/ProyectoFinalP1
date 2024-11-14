@@ -2,7 +2,7 @@ package Funciones;
 
 import java.util.Date;
 
-public class Tickets {
+public class Tickets implements FTickets {
     
     public int IdTicket;
     public Usuario usuario;
@@ -47,9 +47,10 @@ public class Tickets {
     public void setFechaCompra(Date fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
-    
-    public void generarTicket(Usuario usuario, Peliculas pelicula) {
-        
+
+    @Override
+    public void generarTicket() {
+      
     }
     
     

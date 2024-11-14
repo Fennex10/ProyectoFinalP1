@@ -1,6 +1,6 @@
 package Funciones;
 
-public class Peliculas {
+public class Peliculas implements FPelicula {
     
     public int IdPelicula;
     public String nombre;
@@ -46,14 +46,14 @@ public class Peliculas {
         this.CostoDeTicket = CostoDeTicket;
     }
     
-    
-    public void ObtenerCosto(){
-    
+    @Override
+    public int obtenerCosto(){
+        return 0;
     }
     
-    public void actualizarCategoria() {
-       
+    @Override
+    public void actualizarCategoria(){
     }
-    
+
     
 }
