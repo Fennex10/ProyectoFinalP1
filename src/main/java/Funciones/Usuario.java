@@ -1,6 +1,11 @@
 package Funciones;
 
-public class Usuario extends Persona implements FUsuario {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public abstract class Usuario extends Persona implements FUsuario {
     
     public int saldo;
     public int tickets;
@@ -59,14 +64,39 @@ public class Usuario extends Persona implements FUsuario {
         this.contraseña = contraseña;
     }
 
-    @Override
     public void comprarTicket() {
 
     }
 
-    @Override
-    public void agregarSaldo() {
+    public void actualizarUsuario() {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "UPDATE usuarios SET saldo = ?, tickets = ? WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setDouble(1, saldo);
+            stmt.setInt(2, tickets);
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+            System.out.println("Usuario actualizado: ID " + id);
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar el usuario: " + e.getMessage());
+        }
+    }
 
+    public boolean existeUsuarioEnBD() {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            
+            String query = "SELECT COUNT(*) FROM cine";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0; 
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar la existencia de usuarios en la base de datos: " + e.getMessage());
+        }
+        return false; 
     }
 
 }
