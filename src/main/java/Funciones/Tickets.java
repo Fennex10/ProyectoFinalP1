@@ -1,19 +1,20 @@
 package Funciones;
 
-import java.util.Date;
-
 public class Tickets implements FTickets {
-    
-    public int IdTicket;
-    public Usuario usuario;
-    public Peliculas pelicula;
-    public Date fechaCompra;
 
-    public Tickets(int IdTicket, Usuario usuario, Peliculas pelicula, Date fechaCompra) {
-        this.IdTicket = IdTicket;
-        this.usuario = usuario;
+    public int IdTicket;
+    private String pelicula;
+    private String asientos;
+    private double costoTotal;
+
+    public Tickets(String pelicula, String asientos, double costoTotal) {
         this.pelicula = pelicula;
-        this.fechaCompra = new Date();
+        this.asientos = asientos;
+        this.costoTotal = costoTotal;
+    }
+
+    public Tickets() {
+
     }
 
     public int getIdTicket() {
@@ -24,34 +25,35 @@ public class Tickets implements FTickets {
         this.IdTicket = IdTicket;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Peliculas getPelicula() {
+    public String getPelicula() {
         return pelicula;
     }
 
-    public void setPelicula(Peliculas pelicula) {
+    public void setPelicula(String pelicula) {
         this.pelicula = pelicula;
     }
 
-    public Date getFechaCompra() {
-        return fechaCompra;
+    public String getAsientos() {
+        return asientos;
     }
 
-    public void setFechaCompra(Date fechaCompra) {
-        this.fechaCompra = fechaCompra;
+    public void setAsientos(String asientos) {
+        this.asientos = asientos;
+    }
+
+    public double getCostoTotal() {
+        return costoTotal;
+    }
+
+    public void setCostoTotal(double costoTotal) {
+        this.costoTotal = costoTotal;
     }
 
     @Override
-    public void generarTicket() {
-      
+    public String generarTicket(String pelicula1, String asientos1, double costoTotal1) {
+        return "Ticket:\n"
+                + "Película: " + pelicula + "\n"
+                + "Asientos: " + asientos + "\n"
+                + "Costo Total: RD$" + costoTotal;
     }
-    
-    
 }

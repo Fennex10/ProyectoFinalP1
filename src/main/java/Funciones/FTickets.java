@@ -2,6 +2,6 @@ package Funciones;
 
 public interface FTickets {
     
-void generarTicket();
+String generarTicket(String pelicula1, String asientos1, double costoTotal1);
     
 }

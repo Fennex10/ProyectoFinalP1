@@ -1,9 +1,9 @@
 package GUI;
 
+import Funciones.Tickets;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.*;
@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.Arrays;
 
 public class MoviesWindow extends JFrame {
+    
+    
+    private String pelicula; 
+    private String asientos;  
+    private double costoTotal;
 
     private static final Color BACKGROUND_COLOR = new Color(30, 30, 30);
     private static final Color BORDER_COLOR = new Color(139, 0, 0);
@@ -46,6 +51,40 @@ public class MoviesWindow extends JFrame {
 
         // Mostrar panel de películas al inicio
         showMoviesPanel();
+    }
+
+    private void filterMoviesBySearch(String query) {
+        moviesPanel.removeAll();
+
+        // Películas y sus respectivas imágenes
+        List<String> movies = Arrays.asList("Rapidos y Furiosos X", "Donden estan las rubias", "La infiltrada", "Andrea",
+                "Blade Runner 2049", "Moana", "Infiltrados en la universidad", "La lista de Schindler");
+        List<String> images = Arrays.asList(
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Rapido y Furiosos accion.jpeg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Donde estan las rubias comedia.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La infiltrada drama.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Andrea.jpeg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Mision Hostil accion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Moana animacion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Infiltrados en la universidad comedia.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La lista de Schindler drama.jpg");
+
+        // Filtrar películas que contienen el texto buscado (ignorando mayúsculas)
+        for (int i = 0; i < movies.size(); i++) {
+            if (movies.get(i).toLowerCase().contains(query.toLowerCase())) {
+                addMovieCard(movies.get(i), images.get(i));
+            }
+        }
+
+        moviesPanel.revalidate();
+        moviesPanel.repaint();
+
+        if (moviesPanel.getComponentCount() == 0) {
+            JLabel noResultsLabel = new JLabel("No se encontraron películas.", SwingConstants.CENTER);
+            noResultsLabel.setForeground(Color.WHITE);
+            noResultsLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+            moviesPanel.add(noResultsLabel);
+        }
     }
 
     private void createMenuBar() {
@@ -101,9 +140,16 @@ public class MoviesWindow extends JFrame {
         searchButton.setBackground(new Color(141, 31, 18)); // Azul
         searchButton.setForeground(Color.WHITE);
         searchButton.addActionListener(e -> {
-            String query = searchField.getText();
-            JOptionPane.showMessageDialog(this, "Buscando: " + query);
+            String query = searchField.getText().trim();
+            if (!query.isEmpty()) {
+                filterMoviesBySearch(query);
+            } else {
+                filterMoviesByCategory("Todas");
+            }
         });
+
+        //limpia el campo de texto
+        searchField.addActionListener(e -> searchButton.doClick());
 
         // Agregar componentes al menú
         menuBar.add(menuInicio);
@@ -163,11 +209,17 @@ public class MoviesWindow extends JFrame {
         moviesPanel.removeAll();
 
         // Películas y categorías
-        List<String> movies = Arrays.asList("Avengers", "It", "Película 3", "Película 4",
-                "Película 5", "Película 6", "Película 7", "Película 8");
+        List<String> movies = Arrays.asList("Rapidos y Furiosos X", "Donden estan las rubias", "La infiltrada", "Andrea",
+                "Blade Runner 2049", "Moana", "Infiltrados en la universidad", "La lista de Schindler");
         List<String> images = Arrays.asList(
-                "path/to/image1.jpg", "C:\\Users\\User\\Desktop\\download.jpg", "path/to/image3.jpg", "path/to/image4.jpg",
-                "path/to/image5.jpg", "path/to/image6.jpg", "path/to/image7.jpg", "path/to/image8.jpg");
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Rapido y Furiosos accion.jpeg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Donde estan las rubias comedia.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La infiltrada drama.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Andrea.jpeg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Mision Hostil accion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Moana animacion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Infiltrados en la universidad comedia.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La lista de Schindler drama.jpg");
         List<String> categories = Arrays.asList("Acción", "Comedia", "Drama", "Terror",
                 "Acción", "Animación", "Comedia", "Drama");
 
@@ -203,13 +255,17 @@ public class MoviesWindow extends JFrame {
             }
         });
 
-        List<String> movies = Arrays.asList("Película 1", "Película 2", "Película 3", "Película 4",
-                "Película 5", "Película 6", "Película 7", "Película 8");
+        List<String> movies = Arrays.asList("Rapidos y Furiosos X", "Donden estan las rubias", "La infiltrada", "Andrea",
+                "Blade Runner 2049", "Moana", "Infiltrados en la universidad", "La lista de Schindler");
         List<String> images = Arrays.asList(
-                "C:\\Users\\User\\Desktop\\Sin título.png", "C:\\Users\\User\\Desktop\\download.jpg",
-                "C:\\Users\\User\\Desktop\\image3.jpg", "C:\\Users\\User\\Desktop\\image4.jpg",
-                "C:\\Users\\User\\Desktop\\image5.jpg", "C:\\Users\\User\\Desktop\\image6.jpg",
-                "C:\\Users\\User\\Desktop\\image7.jpg", "C:\\Users\\User\\Desktop\\image8.jpg");
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Rapido y Furiosos accion.jpeg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Donde estan las rubias comedia.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La infiltrada drama.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Andrea.jpeg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Mision Hostil accion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Moana animacion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Infiltrados en la universidad comedia.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La lista de Schindler drama.jpg");
 
         for (int i = 0; i < movies.size(); i++) {
             addMovieCard(movies.get(i), images.get(i));
@@ -217,6 +273,7 @@ public class MoviesWindow extends JFrame {
 
         mainPanel.add(moviesPanel, "Movies");
     }
+
     // Crear el panel de asientos
     private void createSeatsPanel() {
         seatsPanel = new JPanel(new BorderLayout());
@@ -302,22 +359,39 @@ public class MoviesWindow extends JFrame {
 
     // Confirmar los asientos seleccionados
     private void confirmSeats() {
+        // Aquí puedes agregar la lógica para confirmar los asientos, como lo has hecho antes
         Set<String> occupied = occupiedSeats.getOrDefault(currentMovie, new HashSet<>());
+        List<String> selectedSeats = new ArrayList<>();
 
+        // Aquí se pasa la lógica de selección de asientos y costos
         for (Component component : ((JPanel) seatsPanel.getComponent(0)).getComponents()) {
             if (component instanceof JButton seatButton) {
-                if (seatButton.getBackground() == Color.YELLOW) {
-                    occupied.add(seatButton.getText());
-                    seatButton.setBackground(Color.RED);
-                    seatButton.setEnabled(false);
+                if (seatButton.getBackground() == Color.YELLOW) { // Si está seleccionado
+                    occupied.add(seatButton.getText()); // Añadir a la lista de ocupados
+                    selectedSeats.add(seatButton.getText());
+                    seatButton.setBackground(Color.RED); // Cambiar a rojo
+                    seatButton.setEnabled(false); // Desactivar el botón
                 }
             }
         }
 
+        // Actualizar el mapa de asientos ocupados
         occupiedSeats.put(currentMovie, occupied);
-        JOptionPane.showMessageDialog(this, "Asientos confirmados para " + currentMovie);
+
+        // Calcular el costo total
+        pelicula = currentMovie;  // La película seleccionada
+        asientos = String.join(", ", selectedSeats);  // Asientos seleccionados
+        costoTotal = selectedSeats.size() * 200.0;  // Ejemplo: costo por asiento
+
+        // Generar el ticket
+        Tickets ticket = new Tickets();
+        String ticketInfo = ticket.generarTicket(pelicula, asientos, costoTotal);
+
+        // Mostrar el ticket
+        JOptionPane.showMessageDialog(this, ticketInfo, "Ticket de Reserva", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new LoginApp().setVisible(true));
-    }}
+    }
+}
