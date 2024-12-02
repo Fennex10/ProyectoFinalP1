@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 public class LoginApp extends JFrame {
 
-    private Usuario usuario = new UsuarioConcreto(0, 0, 0, "", "", "") {};
+    private Usuario usuario = new UsuarioConcreto(0, 0, 0, "", "", "") { };
 
     // Constructor del JFrame
     public LoginApp() {
