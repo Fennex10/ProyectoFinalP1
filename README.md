@@ -4,7 +4,7 @@ y estamos muy contentos de que esta sea nuestra primera aplicacion.
 
 Integrantes:
 
-Dewrin Girón
-Pilar Medina
-Emil Comarazamy
-Elian Medina
+Dewrin Girón,
+Pilar Medina,
+Emil Comarazamy,
+Elian Medina.
