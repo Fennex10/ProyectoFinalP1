@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public abstract class Usuario extends Persona implements FUsuario {
-    
+
     public int saldo;
     public int tickets;
 
@@ -84,19 +84,19 @@ public abstract class Usuario extends Persona implements FUsuario {
 
     public boolean existeUsuarioEnBD() {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            
+
             String query = "SELECT COUNT(*) FROM cine";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 int count = rs.getInt(1);
-                return count > 0; 
+                return count > 0;
             }
         } catch (SQLException e) {
             System.err.println("Error al verificar la existencia de usuarios en la base de datos: " + e.getMessage());
         }
-        return false; 
+        return false;
     }
 
 }

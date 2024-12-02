@@ -1,21 +1,24 @@
 package GUI;
 
+import Funciones.DatabaseConnection;
 import Funciones.Tickets;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 import java.util.List;
 import java.util.Arrays;
 
 public class MoviesWindow extends JFrame {
-    
-    
-    private String pelicula; 
-    private String asientos;  
-    private double costoTotal;
+
+    private String pelicula;
+    private String asientos;
+    private double costo;
 
     private static final Color BACKGROUND_COLOR = new Color(30, 30, 30);
     private static final Color BORDER_COLOR = new Color(139, 0, 0);
@@ -31,12 +34,13 @@ public class MoviesWindow extends JFrame {
     private String currentMovie; // Película seleccionada
 
     public MoviesWindow() {
-        setTitle("Películas - CineApp");
+        setTitle("Cinema Store");
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().setBackground(BACKGROUND_COLOR);
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Login.jpeg"));
 
         // Crear el menú principal
         createMenuBar();
@@ -64,7 +68,7 @@ public class MoviesWindow extends JFrame {
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Donde estan las rubias comedia.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La infiltrada drama.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Andrea.jpeg",
-                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Mision Hostil accion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Blade Runner 2049.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Moana animacion.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Infiltrados en la universidad comedia.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La lista de Schindler drama.jpg");
@@ -216,7 +220,7 @@ public class MoviesWindow extends JFrame {
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Donde estan las rubias comedia.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La infiltrada drama.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Andrea.jpeg",
-                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Mision Hostil accion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Blade Runner 2049.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Moana animacion.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Infiltrados en la universidad comedia.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La lista de Schindler drama.jpg");
@@ -262,7 +266,7 @@ public class MoviesWindow extends JFrame {
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Donde estan las rubias comedia.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La infiltrada drama.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Andrea.jpeg",
-                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Mision Hostil accion.jpg",
+                "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Blade Runner 2049.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Moana animacion.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Infiltrados en la universidad comedia.jpg",
                 "C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\La lista de Schindler drama.jpg");
@@ -378,17 +382,40 @@ public class MoviesWindow extends JFrame {
         // Actualizar el mapa de asientos ocupados
         occupiedSeats.put(currentMovie, occupied);
 
-        // Calcular el costo total
-        pelicula = currentMovie;  // La película seleccionada
-        asientos = String.join(", ", selectedSeats);  // Asientos seleccionados
-        costoTotal = selectedSeats.size() * 200.0;  // Ejemplo: costo por asiento
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "SELECT costo FROM peliculas WHERE Pelicula = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, currentMovie);
+            // Obtener los datos ingresados o seleccionados por el usuario
+            pelicula = currentMovie; // Asegúrate de tener un JComboBox
+            asientos = String.join(", ", selectedSeats); // Reemplaza con el campo adecuado
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                double precioUnitario = rs.getDouble("costo"); // Obtiene el precio unitario de la película
+                costo = selectedSeats.size() * precioUnitario; // Calcula el costo total
+            } else {
+                System.out.println("No se encontró la película en la base de datos.");
+            }
 
-        // Generar el ticket
-        Tickets ticket = new Tickets();
-        String ticketInfo = ticket.generarTicket(pelicula, asientos, costoTotal);
+            // Crear un objeto de la clase Ticket
+            Tickets ticket = new Tickets(pelicula, asientos, costo);
 
-        // Mostrar el ticket
-        JOptionPane.showMessageDialog(this, ticketInfo, "Ticket de Reserva", JOptionPane.INFORMATION_MESSAGE);
+            // Guardar el ticket en la base de datos
+            ticket.guardarEnBaseDeDatos();
+
+            // Mostrar un mensaje al usuario con los detalles
+            JOptionPane.showMessageDialog(this, "¡Ticket generado con éxito!\n"
+                    + "Número de Ticket: " + ticket.getNumeroTicket() + "\n"
+                    + "Película: " + ticket.getPelicula() + "\n"
+                    + "Asientos: " + ticket.getAsientos() + "\n"
+                    + "Costo: $" + ticket.getCosto(),
+                    "Ticket Confirmado", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al generar el ticket. Inténtelo de nuevo.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {

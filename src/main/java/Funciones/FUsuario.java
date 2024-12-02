@@ -1,8 +1,9 @@
 package Funciones;
 
 public interface FUsuario {
-    
-void comprarTicket();
-void agregarSaldo();
-    
+
+    void comprarTicket();
+
+    void agregarSaldo();
+
 }

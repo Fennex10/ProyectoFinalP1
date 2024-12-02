@@ -1,6 +1,7 @@
 package Funciones;
 
 public abstract class Persona {
+
     protected int id;
     protected String nombre;
     protected String email;

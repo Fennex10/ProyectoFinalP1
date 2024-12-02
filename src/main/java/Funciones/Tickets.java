@@ -1,28 +1,41 @@
 package Funciones;
 
+import java.util.Random;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 public class Tickets implements FTickets {
 
-    public int IdTicket;
     private String pelicula;
     private String asientos;
-    private double costoTotal;
+    private double costo;
+    private int numeroTicket;
 
-    public Tickets(String pelicula, String asientos, double costoTotal) {
+    public Tickets(String pelicula, String asientos, double costo) {
         this.pelicula = pelicula;
         this.asientos = asientos;
-        this.costoTotal = costoTotal;
+        this.costo = costo;
+        this.numeroTicket = generarNumeroTicket(); // Genera un número único para el ticket
     }
 
     public Tickets() {
 
     }
 
-    public int getIdTicket() {
-        return IdTicket;
+    public double getCosto() {
+        return costo;
     }
 
-    public void setIdTicket(int IdTicket) {
-        this.IdTicket = IdTicket;
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
+
+    public int getNumeroTicket() {
+        return numeroTicket;
+    }
+
+    public void setNumeroTicket(int numeroTicket) {
+        this.numeroTicket = numeroTicket;
     }
 
     public String getPelicula() {
@@ -41,19 +54,26 @@ public class Tickets implements FTickets {
         this.asientos = asientos;
     }
 
-    public double getCostoTotal() {
-        return costoTotal;
-    }
-
-    public void setCostoTotal(double costoTotal) {
-        this.costoTotal = costoTotal;
+    @Override
+    public int generarNumeroTicket() {
+        Random random = new Random();
+        return 10000 + random.nextInt(90000);
     }
 
     @Override
-    public String generarTicket(String pelicula1, String asientos1, double costoTotal1) {
-        return "Ticket:\n"
-                + "Película: " + pelicula + "\n"
-                + "Asientos: " + asientos + "\n"
-                + "Costo Total: RD$" + costoTotal;
+    public void guardarEnBaseDeDatos() {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "INSERT INTO tickets (numeroTicket, pelicula, asientos, costo) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, numeroTicket);
+            stmt.setString(2, pelicula);
+            stmt.setString(3, asientos);
+            stmt.setDouble(4, costo);
+
+            stmt.executeUpdate();
+            System.out.println("Ticket guardado correctamente en la base de datos.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

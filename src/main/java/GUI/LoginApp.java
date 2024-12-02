@@ -18,17 +18,18 @@ public class LoginApp extends JFrame {
     private Usuario usuario = new UsuarioConcreto(0, 0, 0, "", "", "") {
         @Override
         public void agregarSaldo() {
-        }       
+        }
     };
 
     // Constructor del JFrame
     public LoginApp() {
         setResizable(false);
-        setTitle("Login - CineApp");
+        setTitle("Cinema Store");
         setSize(961, 566);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
+        setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\pc\\OneDrive\\Escritorio\\Imagenes\\Login.jpeg"));
 
         // Panel principal
         JPanel mainPanel = new JPanel();
