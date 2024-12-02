@@ -68,6 +68,7 @@ public abstract class Usuario extends Persona implements FUsuario {
 
     }
 
+    @Override
     public void actualizarUsuario() {
         try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "UPDATE usuarios SET saldo = ?, tickets = ? WHERE id = ?";
@@ -82,6 +83,7 @@ public abstract class Usuario extends Persona implements FUsuario {
         }
     }
 
+    @Override
     public boolean existeUsuarioEnBD() {
         try (Connection conn = DatabaseConnection.getConnection()) {
 
