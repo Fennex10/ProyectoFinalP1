@@ -2,8 +2,8 @@ package Funciones;
 
 public interface FUsuario {
 
-    void comprarTicket();
+    void actualizarUsuario();
 
-    void agregarSaldo();
+    boolean existeUsuarioEnBD();
 
 }
